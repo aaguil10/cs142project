@@ -1,5 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage{fullpage,mathpazo,amsfonts,nicefrac,amsmath,amsthm}
+\usepackage{enumitem}
 
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Z}{\mathbb{Z}}
@@ -8,54 +9,32 @@
 
 \begin{document}
 
-\section*{CMPS 142: Homework 1}
+\noindent
+    Alejandro Aguilar \\
+    & Craig Collins \\
+    & Leif Myer \\
+    
+\begin{center}
+\section*{CMPS 142: Homework 4}
+\end{center}
 
-\begin{tabular}{p{10cm} l}
-    & Alejandro Aguilar \\
-    & John-Michael Burke \\
-    & Kevin Doyle \\
-\end{tabular}
-    
-\begin{enumerate}
-  \item We will prove that for an arbitrary number of examples $m$, and number of features $n$, that the Least Sqares cost function $J(\theta)$ is a convex function of the $n-$dimensional parameter vector $\theta$.
-  \item Weka Problem
-  	\begin{enumerate}
-  	\item[(a)] Model: $y= -0.1343(x_1) + 1.8477(x_2) + -0.8966(x_3) + 4.3608$ \\
-  	Root mean squared error: $0.1897$
-  	\item[(b)] For $\textbf{x} = [3,3,5]$, using the model from (a) we have $\text{\^{t}} = 5.018$
-  	\item[(c)] $\theta = (4.3608, -0.1343, 1.8477, -0.8966)$ 
-  	\item[(d)] As long as each instance $i$, $x^{(i)}$, has the same row index as the corresponding $y^{(i)}$, the data will be the same, and so the resulting regression model will be the same. 
-  	\end{enumerate}
-  \item To prove $ w \cdot x = \ln\left( \frac{p(1\mid x,w)}{p(0\mid x,w)}\right)  $ we will simplify $\ln\left( \frac{p(1\mid x,w)}{p(0\mid x,w)}\right) $ and demonstrate the equality.
+\begin{enumerate}[label=(\alph*)]
+
+\section*{Problem 1}
+  \item The probability that a randomly drawn point from p falls outside the interval is $1 - P( (z_\epsilon,0] )$. 
   
-   \begin{proof}We were given $p(1\mid x,w) =\frac{e^{w \cdot x}}{1 + e^{w \cdot x}}$ and $p(0\mid x,w) = 1 - p(1\mid x,w)$. From this we can find that 
-    
-	\begin{align*}
-	\begin{split}
-	p(0\mid x,w) &= 1 - p(1\mid x,w) \\
-	&= 1 - \frac{e^{w \cdot x}}{1 + e^{w \cdot x}} \\
-	&= \frac{1 + e^{w \cdot x}}{1 + e^{w \cdot x}} - \frac{e^{w \cdot x}}{1 + e^{w \cdot x}} \\
-	&= \frac{1 + e^{w \cdot x} - e^{w \cdot x}}{1 + e^{w \cdot x}} \\
-	&= \frac{1}{1 + e^{w \cdot x}} .
-	\end{split}
-	\end{align*}
-   
-   Now that we have expressions for $p(1\mid x,w)$ and $p(0\mid x,w)$, we can substitute them into
-   
-   	\begin{align*}
-   	\begin{split}
-   	\ln\left(\frac{p(1\mid x,w)}{p(0\mid x,w)}\right) &= \ln \left( \frac{\frac{e^{w \cdot x}}{1 + e^{w \cdot x}}}{\frac{1}{1 + e^{w \cdot x}}} \right)  \\
-   	&= \ln \left( \frac{e^{w \cdot x}}{1 + e^{w \cdot x}} \right) - \ln \left( \frac{1}{1 + e^{w \cdot x}} \right) \\
-   	&= \Big[ \ln \left( e^{w \cdot x} \right) - \ln \left( 1 + e^{w \cdot x} \right)  \Big] - \Big[ \ln \left( 1 \right) - \ln \left( 1 + e^{w \cdot x} \right)   \Big] \\
-   	&= \ln \left( e^{w \cdot x} \right) - \ln \left( 1 + e^{w \cdot x} \right) + \ln \left( 1 + e^{w \cdot x} \right) \\
-   	&= \ln \left( e^{w \cdot x} \right) \\
-   	&= w \cdot x
-   	\end{split}
-   	\end{align*}
-   
-   which is what we intended to prove.
+  \item We know that any random example in D will fall outside of $(z_\epsilon,0]$ with probability $1 - P( (z_\epsilon,0] )$. Each example falls independently from any other random example. Hence the probability of all of them falling outside the interval is $(1 - P((z,0)))^N$ where $N$ is the number of examples.  
+  \item The probability that a $A$ produces an $h_\theta $ with an error rate that is at least $\epsilon$ is: 
+  $$1 - 2ze^{-2\epsilon^2m}$$
+  Where $z$ is the number of hypothesis and $m$ is the number of examples.
   
-   \end{proof}
-\end{enumerate}
+  \item The smallest $N$ that returns an  $h_\theta $ with and error greater than $\epsilon$ but not more than $\delta$ is:
+  
+  $$\frac{1}{2\epsilon^2}log(\frac{2z}{\delta})$$
+  
+  Where $z$ is the number of hypothesis. 
+
+  
+
 
 \end{document}
