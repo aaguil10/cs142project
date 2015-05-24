@@ -22,11 +22,12 @@ with open(input_file, 'rb') as csvfile:
         featureMissing = False
         for item in row:
             splitItems = item.split(",")
+            #print(splitItems)
             if splitItems[-1] == '' and len(splitItems) > 1:
-                featureMissing = True
                 del splitItems[-1]
             list.extend(splitItems)
         edit_row(list)
+        featureMissing = True if '' in list else False
         if recordMissingData or not featureMissing:
             data.append(list)
 
