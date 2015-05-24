@@ -46,5 +46,4 @@ Temporary Items
 *.pyc
 
 # CS 142 Specific Files
-test_data.csv
-test_output.csv
+test_*.csv
