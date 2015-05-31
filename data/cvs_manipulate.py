@@ -113,7 +113,7 @@ arffdata = {
         (u'Firstyrcumgpa', list_intervals)
         #(u'Firstyrcumgpa', u'REAL')
     ],
-    u'data': cutData,
+    u'data': cutData, # list
     u'description': u'',
     u'relation': u'admission_stats'
 }
