@@ -2,9 +2,6 @@ import arff
 import sys
 from sklearn import linear_model
 
-# password: pythoncryeverytim
-# 'sha1:435320dcd938:cc03b9128b80c82b465481be7106ed0a6927e127'
-
 gender = {'Male' : 0, 'Female' : 1, 'Unknown' : 2}
 language = {'English' : 0, 'EnglishandAnother' : 1, 'Another' : 2}
 
