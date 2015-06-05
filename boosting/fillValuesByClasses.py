@@ -7,6 +7,7 @@ from collections import Counter
 
 input_arff = 'test_input.arff'
 temp_dir = 'temp'
+normalize = False
 
 # arff template to be overwritten
 template = {
@@ -92,11 +93,20 @@ def findMissingValues(filename):
         af.truncate()
         return data
 
+def normFeature(ds, i):
+	s = [row[i] for row in ds]
+	maxVal = max(s)
+	minVal = min(s)
+	for row in ds:
+		row[i] = (row[i] - minVal) / (maxVal - minVal)
 
+		
 # Main: 
 #       get input, split file, replace missing values, recombine file
 if len(sys.argv) > 1:
     input_arff = sys.argv[1]
+    if len(sys.argv) > 2:
+        normalize = True if sys.argv[2].lower() == 'true' else False
 
 # see if temp directory exists and if so make a new one
 if os.path.exists(temp_dir):
@@ -114,6 +124,13 @@ for i in range(numFiles):
 # combine all datafiles
 with open(input_arff, 'r+') as af:
     arffFile = arff.load(af)
+    # normalize the data is requested
+    if normalize:
+        attrs = arffFile['attributes']
+        for index in range(len(attrs)):
+            # skip features 0 and 12
+            if index != 0 and index != 12 and index != len(attrs)-1:
+                normFeature(datalist, index)
     arffFile['data'] = datalist
     af.seek(0)
     af.write(arff.dumps(arffFile))
