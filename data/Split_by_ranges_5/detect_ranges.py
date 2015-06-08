@@ -17,9 +17,11 @@ list_intervals = ['0', '1', '2', '3', '4']
 
 
 def edit_row(list):
+    print "old: " 
+    print list
     list.remove(list[0])
-    list.remove(list[-2])
-    list.remove(list[-2])
+    #list.remove(list[-2])
+    #list.remove(list[-2])
     x = -65
     try:
         x = float(list[-1])
@@ -40,7 +42,7 @@ def edit_row(list):
     else:
         list[-1] = 4
 
-    print "old: " 
+    print "new: " 
     print list
     print " "
 
@@ -65,24 +67,30 @@ def print_seperators():
 
 
 
-
+pollo = 1
 
 GPAs = []
 #read data
 with open(input_file, 'rb') as csvfile:
     spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
     for row in spamreader:
-        list = []
-        for item in row:
-            splitItems = item.split(",")
-            list.extend(splitItems)
-            if(list[-1] != ''):
-                GPAs.append(list[-1])
-            #print list
-        edit_row(list)
-        data.append(list)
+        if(pollo == 0):
+            list = []
+            featureMissing = False
+            for item in row:
+                splitItems = item.split(",")
+                if splitItems[-1] == '' and len(splitItems) > 1:
+                    del splitItems[-1] # remove duplicates in split
+                list.extend(splitItems)
+                if(list[-1] != ''):
+                    GPAs.append(list[-1])
+                #print list
+            edit_row(list)
+            data.append(list)
+        else:
+            pollo = 0
 
-print data
+#print data
 
 arffdata = {
     u'attributes': [
