@@ -135,3 +135,5 @@ with open(input_arff, 'r+') as af:
     af.seek(0)
     af.write(arff.dumps(arffFile))
     af.truncate()
+
+print 'Done!'
