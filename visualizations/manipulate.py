@@ -11,7 +11,10 @@
 # Input Arguments: 
 #   arg1 - 'name of csv file'
 #   arg2 - 'name of output file'
-#   arg3 - (if arg3 exists) do not normalize
+# 
+# Command Flags:
+#   -n   - no normalization
+#   (CURRENTLY DOES NOT WORK)-t   - manipulate test set (does not include firstyearunits and label)
 #
 # Output:
 #   Program will output two files with name 'arg2'.arff and 'arg2'.csv.
@@ -22,6 +25,7 @@ import csv
 import arff
 import math
 import sys
+import argparse
 import decimal
 import os
 import shutil
@@ -146,6 +150,8 @@ def print_seperators():
 input_file = sys.argv[1]
 output_arffFile = sys.argv[2]
 
+isTestSet = False if '-t' not in sys.argv else True
+
 pollo = 1
 GPAs = []
 data = []
@@ -171,9 +177,8 @@ with open(input_file, 'rb') as csvfile:
         else:
             pollo = 0
 
-# Creat ARFF Template
-template = {
-    u'attributes': [
+# Create ARFF Attributes Template
+template_attr = [
         (u'Subjnum', u'REAL'),
         (u'gender', [u'Male', u'Female', u'Unknown']),
         (u'Firgen', u'REAL'),
@@ -193,11 +198,18 @@ template = {
         (u'Firststyeartotcumunits', u'REAL'),
         (u'Firstyrcumgpa', list_intervals)
         #(u'Firstyrcumgpa', u'REAL')
-    ],
+    ]
+if isTestSet:
+    template_attr = []
+
+# Creat ARFF Template
+template = {
+    u'attributes': template_attr,
     u'data': data, # list
     u'description': u'',
     u'relation': u'admission_stats'
 }
+
 # Save ARFF FILE
 with open(output_arffFile, 'w') as arffFile:
     arffFile.write(arff.dumps(template))
@@ -207,7 +219,7 @@ print 'Finished Classifying...'
 # Calculate Means/Modoes and Normalize 
 input_arff = output_arffFile
 temp_dir = 'temp'
-normalize = True if len(sys.argv) <= 3 else False
+normalize = True if '-n' not in sys.argv else False
 
 # see if temp directory exists and if so make a new one
 if os.path.exists(temp_dir):
