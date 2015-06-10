@@ -4,7 +4,7 @@ import math
 import sys
 import decimal
 
-input_file = 'goodtrain.csv'
+input_file = 'goodtestNoLabels.csv'
 output_file = 'test_output.csv'
 output_arffFile = 'test_arff.arff'
 interval = 1
@@ -76,10 +76,10 @@ with open(input_file, 'rb') as csvfile:
             if splitItems[-1] == '' and len(splitItems) > 1:
                 del splitItems[-1] # remove duplicates in split
             list.extend(splitItems)
-        edit_row(list)
+        #edit_row(list)
         featureMissing = True if '' in list else False
         if recordMissingData or not featureMissing:
-            data.append(list[1:]) # do not include id num at index 0
+            data.append(list) # do not include id num at index 0
     print 'finished convertering'
 
 #write data
