@@ -40,6 +40,64 @@ def sat_to_act_writing(sat_score):
 	return 0
 
 
+def sat_to_act_tota1(sat_score):
+	if(sat_score > 2390):
+		return 36
+	elif (2390 > sat_score >= 2330):
+		return 35
+	elif (2330 > sat_score >= 2250):
+		return 34
+	elif (2250 > sat_score >= 2180):
+		return 33
+	elif (2180 > sat_score >= 2120):
+		return 32
+	elif (2120 > sat_score >= 2060):
+		return 31
+	elif (2060 > sat_score >= 2000):
+		return 30
+	elif (2000 > sat_score >= 1940):
+		return 29
+	elif (1940 > sat_score >= 1880):
+		return 28
+	elif (1880 > sat_score >= 1820):
+		return 27
+	elif (1820 > sat_score >= 1770):
+		return 26
+	elif (1770 > sat_score >= 1710):
+		return 25
+	elif (1710 > sat_score >= 1650):
+		return 24
+	elif (1650 > sat_score >= 1590):
+		return 24
+	elif (1590 > sat_score >= 1530):
+		return 23
+	elif (1530 > sat_score >= 1470):
+		return 22
+	elif (1470 > sat_score >= 1410):
+		return 21
+	elif (1410 > sat_score >= 1350):
+		return 20
+	elif (1350 > sat_score >= 1290):
+		return 19
+	elif (1290 > sat_score >= 1230):
+		return 18
+	elif (1230 > sat_score >= 1170):
+		return 17
+	elif (1170 > sat_score >= 1100):
+		return 16
+	elif (1100 > sat_score >= 1020):
+		return 15
+	elif (1020 > sat_score >= 950):
+		return 14
+	elif (950 > sat_score >= 870):
+		return 13
+	elif (870 > sat_score >= 780):
+		return 12
+	elif (780 > sat_score):
+		return 11
+	return 0
+
+
 def act_to_sat_writing(act_score):
 	if(act_score == 36):
 		return 800
