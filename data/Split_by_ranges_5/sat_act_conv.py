@@ -37,8 +37,46 @@ def sat_to_act_writing(sat_score):
 		return 9
 	elif (290 > sat_score):
 		return 8
-
 	return 0
 
 
-print sat_to_act_writing(410)
+def act_to_sat_writing(act_score):
+	if(act_score == 36):
+		return 800
+	elif (act_score == 35):
+		return 770
+	elif (act_score == 33):
+		return 740
+	elif (act_score == 32):
+		return 710
+	elif (act_score == 31):
+		return 680
+	elif (act_score == 29):
+		return 650
+	elif (act_score == 27):
+		return 620
+	elif (act_score == 25):
+		return 590
+	elif (act_score == 24):
+		return 560
+	elif (act_score == 22):
+		return 530
+	elif (act_score == 20):
+		return 500
+	elif (act_score == 19):
+		return 470
+	elif (act_score == 16):
+		return 440
+	elif (act_score == 14):
+		return 410
+	elif (act_score == 13):
+		return 380
+	elif (act_score == 11):
+		return 350
+	elif (act_score == 9):
+		return 320
+	elif (act_score == 8):
+		return 290
+	return 0
+
+print act_to_sat_writing(31)
