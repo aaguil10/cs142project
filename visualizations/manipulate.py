@@ -29,6 +29,7 @@ import argparse
 import decimal
 import os
 import shutil
+from testConverter import *
 from collections import Counter
 
 # Classify Each Example
@@ -115,6 +116,22 @@ def findMissingValues(filename):
         af.truncate()
         return data
 
+def replaceByConversion(example):
+    # 4, 5, 6   SAT: Comp, Math, Writing
+    # 9, 10, 11  ACT: Reading, Math, Writing
+    if example[4] == None and example[9] != None:
+        example[4] = ACTreadToSATcomp(example[8])
+    if example[5] == None and example[10] != None:
+        example[5] = ACTmathToSATmath(example[9])
+    if example[6] == None and example[11] != None:
+        example[6] = ACTwritToSATwrit(example[10])
+    if example[9] == None and example[4] != None:
+        example[9] = SATcompToACTread(example[3])
+    if example[10] == None and example[5] != None:
+        example[10] = SATmathToACTmath(example[4])
+    if example[11] == None and example[6] != None:
+        example[11] = SATwritToACTwrit(example[5])
+
 # Normalizes a particular feature i
 # NOTE: Assumes that i is a REAL number feature
 def normFeature(ds, i):
@@ -149,8 +166,9 @@ def print_seperators():
 # ====================================
 input_file = sys.argv[1]
 output_arffFile = sys.argv[2]
-
+recordMissingData = False if '-r' in sys.argv else True
 isTestSet = False if '-t' not in sys.argv else True
+useConverts = False if '-c' in sys.argv else True
 
 pollo = 1
 GPAs = []
@@ -161,6 +179,7 @@ list_intervals = ['0', '1', '2', '3', '4']
 with open(input_file, 'rb') as csvfile:
     spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
     for row in spamreader:
+        featureMissing = False
         if(pollo == 0):
             list_data = []
             featureMissing = False
@@ -173,7 +192,9 @@ with open(input_file, 'rb') as csvfile:
                     GPAs.append(list_data[-1])
                 #print list_data
             edit_row(list_data)
-            data.append(list_data)
+            featureMissing = True if '' in list_data else False
+            if recordMissingData or not featureMissing:
+                data.append(list_data)
         else:
             pollo = 0
 
@@ -216,8 +237,24 @@ with open(output_arffFile, 'w') as arffFile:
 
 print 'Finished Classifying...'
 
-# Calculate Means/Modoes and Normalize 
 input_arff = output_arffFile
+
+if not useConverts:
+    with open(input_arff, 'r+') as af:
+        arffFile = arff.load(af)
+        data = arffFile['data']
+        datalist = []
+        for row in data:
+            replaceByConversion(row)
+            datalist.append(row)
+        print 'Finished Converting...'
+        arffFile['data'] = datalist
+        af.seek(0)
+        af.write(arff.dumps(arffFile))
+        af.truncate()
+
+#if useConverts:
+# Calculate Means/Modoes and Normalize 
 temp_dir = 'temp'
 normalize = True if '-n' not in sys.argv else False
 
@@ -251,5 +288,18 @@ with open(input_arff, 'r+') as af:
     af.seek(0)
     af.write(arff.dumps(arffFile))
     af.truncate()
+#else:
+#    with open(input_arff, 'r+') as af:
+#        arffFile = arff.load(af)
+#        data = arffFile['data']
+#        datalist = []
+#        for row in data:
+#            replaceByConversion(row)
+#            datalist.append(row)
+#        print 'Finished Converting...'
+#        arffFile['data'] = datalist
+#        af.seek(0)
+#        af.write(arff.dumps(arffFile))
+#        af.truncate()
 
 print 'Done!'
