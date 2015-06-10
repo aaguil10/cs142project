@@ -12,14 +12,14 @@ from sklearn import cross_validation
 
 
 # Vars to iterate over
-min_samples_leaf_MIN = 4
-min_samples_leaf_MAX = 8
+min_samples_leaf_MIN = 1
+min_samples_leaf_MAX = 4
 min_samples_split_MIN = 2
 min_samples_split_MAX = 6
 min_weight_fraction_leaf_MIN = 0.0
 min_weight_fraction_leaf_MAX = 0.0
-n_estimator_MIN = 1000
-n_estimator_MAX = 1001
+n_estimator_MIN = 100
+n_estimator_MAX = 101
 cross_validation_MAX = 10
 n_jobs_VALUE = 1
 max_features_VALUE = 'auto'
@@ -29,6 +29,7 @@ clff = RandomForestClassifier()
 # Data
 data = ARF.convertMe()
 print (data["feature_names"])
+print (data["data"][0])
 
 # Resulting Data
 
@@ -63,7 +64,7 @@ def main():
 					n_estimators=n_est,
 					n_jobs=n_jobs_VALUE,
 					max_features=max_features_VALUE)
-					#class_weight={"9" : 0.4})
+					#class_weight={10 : 0.27})
 				for cv in range(cross_validation_MAX): # Iterate some number of splits
 					# Create Dictionary to hold data
 					tempD = { \
@@ -106,6 +107,23 @@ print(max_score, "---", parameters)
 
 def returnCLF():
 	return clff
+
+def predictTest(x, y, z):
+	clff = RandomForestClassifier(
+					min_samples_leaf=y,
+					min_samples_split=x,
+					n_estimators=z,
+					n_jobs=n_jobs_VALUE,
+					max_features=max_features_VALUE)
+	X = data["data"]
+	Y = data["target"]
+	clff.fit(X,Y)
+	for student in data["test"]:
+		#print (student)
+		predictedClass = clff.predict(student[1:])
+		print(str(student[0]) +  " predicts " + str(predictedClass))
+	return data
+
 # Display results
 #for x in range(len(result)):
 	#print(result[x])
